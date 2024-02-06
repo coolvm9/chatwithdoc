@@ -54,19 +54,33 @@
 <div class="pdf-pane">
     <embed th:src="@{/10k8pages.pdf}" type="application/pdf" width="100%" height="800px" />
 </div>
-<div class="chat-pane" id="chat-pane">
+
+
+<div id="chat-container">
+    <div id="messages"></div>
+    <form id="message-form" style="display: flex; flex-direction: column;">
+        <textarea  id="message-input" placeholder="Type your message..." rows="8" style="flex-grow: 1;"></textarea>
+
+        <button type="submit">Send</button>
+    </form>
+</div>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/js/chat.js"></script>
+
+<!--<div class="chat-pane" id="chat-pane">
     <h3>Chat..</h3>
-    <!-- Style the form to be flex and column layout -->
+    &lt;!&ndash; Style the form to be flex and column layout &ndash;&gt;
     <form th:action="@{/display-text}" method="post" style="display: flex; flex-direction: column;">
-        <!-- Use flex-grow to make textarea take 90% of width -->
+        &lt;!&ndash; Use flex-grow to make textarea take 90% of width &ndash;&gt;
         <textarea name="message" rows="8" placeholder="Enter a prompt" id="message-input" style="flex-grow: 1;"></textarea>
-        <!-- Move the button to a new line and align it to the right -->
+        &lt;!&ndash; Move the button to a new line and align it to the right &ndash;&gt;
         <button type="submit" style="align-self: flex-end; padding: 10px 20px; font-size: 16px; margin-top: 30px;">Send</button>
 
     </form>
-    <!-- Convert the div into a readonly textarea -->
+    &lt;!&ndash; Convert the div into a readonly textarea &ndash;&gt;
     <textarea id="chat-content" placeholder="response..." readonly style="width: 100%; height: 100%; margin-top: 50px;" th:text="${displayText}" rows="10"></textarea>
-</div>
+</div>-->
 </body>
 </html>
 
