@@ -5,82 +5,130 @@
     <title>Document Viewer with Chat</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             padding: 20px;
+            background-color: #f2f2f2;
         }
 
         .pdf-pane {
-            width: 60%; /* Adjust the width as needed */
+            width: 60%;
         }
 
         .pdf-pane iframe {
             width: 100%;
-            height: 160vh; /* Adjust the height as needed */
+            height: 80%;
             border: none;
         }
 
         .chat-pane {
-            width: 38%; /* Adjust the width as needed */
+            width: 40%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
             padding: 10px;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            background-color: #f9f9f9;
+            background-color: #007bff;
+            color: #fff;
+            border-bottom: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .chat-messages {
+            height: 60vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .chat-messages .message:nth-child(even) {
+            background-color: #dddddd; /* Alternate background color for even rows */
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+
+        .message p {
+            margin: 0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            background-color: #007bff;
+            color: #fff;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message .sender {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .message .timestamp {
+            font-size: 0.8em;
+            color: #aaa;
+            margin-left: 8px;
+        }
+        .chat-input {
+            display: flex;
+            justify-content: space-between; /* Align items to the start and end of the container */
+            align-items: flex-end;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        #message-input {
+            flex: 1; /* Take up remaining space */
+            width: 90%; /* Set width to 90% */
+            padding: 10px; /* Add padding for better appearance */
+            margin-right: 10px; /* Add margin between textarea and button */
+        }
+
+        #message-submit-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            align-items: flex-end;
+            padding: 8px 16px;
+        }
+
+        #message-input::placeholder {
+            font-style: italic; /* Optional: Italicize the placeholder text */
+        }
+
+
+        #message-submit-button:hover {
+            background-color: #0056b3;
         }
     </style>
-    <script th:inline="javascript">
-    /*<![CDATA[*/
-    function updateChat() {
-        var chatContent = document.getElementById('chat-content');
-        var messageInput = document.getElementById('message-input').value;
-
-        // Send an AJAX request to the server to update chat content
-        $.ajax({
-            type: 'POST',
-            url: '/display-text',
-            data: { 'message': messageInput },
-            success: function (response) {
-                chatContent.innerHTML = response;
-            }
-        });
-    }
-    /*]]>*/
-</script>
-
-
 </head>
 <body>
+
 <div class="pdf-pane">
-    <embed th:src="@{/10k8pages.pdf}" type="application/pdf" width="100%" height="800px" />
+    <embed th:src="@{/10k8pages.pdf#toolbar=0}" type="application/pdf" width="100%" height="800px"/>
 </div>
 
-
-<div id="chat-container">
-    <div id="messages"></div>
-    <form id="message-form" style="display: flex; flex-direction: column;">
-        <textarea  id="message-input" placeholder="Type your message..." rows="8" style="flex-grow: 1;"></textarea>
-
-        <button type="submit">Send</button>
-    </form>
+<div id="chat-container" class="chat-pane">
+    <div class="chat-header">
+        Chat
+    </div>
+    <div class="chat-messages" id="messages">
+        <!-- Chat messages will be appended here -->
+    </div>
+    <div class="chat-input">
+        <form id="message-form">
+            <textarea id="message-input" placeholder="Type your message..." cols="90"></textarea>
+            <button id="message-submit-button" type="submit" >Send.....</button>
+        </form>
+    </div>
 </div>
-<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+
+<script src="/js/sockjs.min.js"></script>
+<script src="/js/stomp.min.js"></script>
 <script src="/js/chat.js"></script>
-
-<!--<div class="chat-pane" id="chat-pane">
-    <h3>Chat..</h3>
-    &lt;!&ndash; Style the form to be flex and column layout &ndash;&gt;
-    <form th:action="@{/display-text}" method="post" style="display: flex; flex-direction: column;">
-        &lt;!&ndash; Use flex-grow to make textarea take 90% of width &ndash;&gt;
-        <textarea name="message" rows="8" placeholder="Enter a prompt" id="message-input" style="flex-grow: 1;"></textarea>
-        &lt;!&ndash; Move the button to a new line and align it to the right &ndash;&gt;
-        <button type="submit" style="align-self: flex-end; padding: 10px 20px; font-size: 16px; margin-top: 30px;">Send</button>
-
-    </form>
-    &lt;!&ndash; Convert the div into a readonly textarea &ndash;&gt;
-    <textarea id="chat-content" placeholder="response..." readonly style="width: 100%; height: 100%; margin-top: 50px;" th:text="${displayText}" rows="10"></textarea>
-</div>-->
 </body>
 </html>
-

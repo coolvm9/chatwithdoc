@@ -22,12 +22,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.webjars:sockjs-client:1.5.1'
 	implementation 'org.webjars:stomp-websocket:2.3.4'
-
-	implementation 'org.springframework.boot:spring-boot-devtools'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+bootRun {
+	// Use Spring Boot DevTool only when we run Gradle bootRun task
+	classpath = sourceSets.main.runtimeClasspath + configurations.developmentOnly
+	sourceResources sourceSets.main
+	if (project.hasProperty('profiles')) {
+		environment SPRING_PROFILES_ACTIVE: profiles
+	} else {
+		def profiles = 'local'
+		environment SPRING_PROFILES_ACTIVE: profiles
+	}
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }
