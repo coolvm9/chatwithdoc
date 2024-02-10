@@ -131,7 +131,7 @@
     <div class="chat-header">
         Chat
     </div>
-    <div class="chat-messages" id="chat">
+    <div class="chat-messages" id="messages">
         <!-- Chat messages will be appended here -->
     </div>
     <div class="chat-input">
@@ -146,19 +146,18 @@
 <script src="/js/stomp.min.js"></script>
 <script src="/js/chat.js"></script>
 <script>
-    // Get the textarea element and submit button
+    // Get the textarea element
     var messageInput = document.getElementById('message-input');
-    var submitButton = document.getElementById('message-submit-button');
 
-    // Listen for the "keypress" event on the textarea
+    // Listen for the "keypress" event
     messageInput.addEventListener('keypress', function(event) {
         // Check if the "Enter" key was pressed (key code 13)
         if (event.keyCode === 13) {
             // Prevent the default form submission behavior
             event.preventDefault();
 
-            // Trigger a click event on the submit button
-            submitButton.click();
+            // Submit the form
+            document.getElementById('message-form').submit();
         }
     });
 </script>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PDF Viewer with Search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+
+    <style>
+        #search-pane { flex: 1; padding: 20px; }
+        #container {
+            text-align: center;
+        }
+        #pdf-pane {
+            overflow-y: scroll;
+            height: 800px;
+            position: relative;
+            margin-bottom: 20px; /* Add some space between the PDF pane and the buttons */
+        }
+        canvas {
+            width: 100%;
+            border: 1px solid black;
+        }
+        #navigation-controls {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="page_count" style="display: none;"></div>
+
+<div id="container">
+        <div id="pdf-pane">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+        <div id="navigation-controls">
+            <button id="prev">Previous</button>
+            <button id="next">Next</button>
+        </div>
+        <div>Page: <span id="page_num"></span> / <span id="page_count"></span></div>
+
+    <div id="search-pane">
+        <input type="text" id="searchBox" placeholder="Search for...">
+        <button onclick="searchText()">Search</button>
+    </div>
+</div>
+
+<script th:src="@{/js/pdfViewerWithSearch.js}"></script>
+</body>
+</html>
