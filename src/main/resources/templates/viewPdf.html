@@ -3,11 +3,19 @@
 <head>
     <title>PDF Viewer with Search</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+    </script>
 
     <style>
-        #search-pane { flex: 1; padding: 20px; }
+        #search-pane {
+        flex: 1; padding: 20px;
+        z-index: 1000; /* Adjust as needed, just for testing */
+        position: relative; /* z-index works on positioned elements */
+        }
         #container {
             text-align: center;
+
         }
         #pdf-pane {
             overflow-y: scroll;
@@ -21,13 +29,18 @@
         }
         #navigation-controls {
             margin-top: 10px;
+            z-index: 1000; /* Adjust as needed, just for testing */
+            position: relative; /* z-index works on positioned elements */
         }
     </style>
 </head>
 <body>
-<div id="page_count" style="display: none;"></div>
+<!--<div id="page_count" style="display: none;"></div>-->
+<div id="text-layer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden;"></div>
+
 
 <div id="container">
+
         <div id="pdf-pane">
             <canvas id="pdf-canvas"></canvas>
         </div>
@@ -38,9 +51,11 @@
         <div>Page: <span id="page_num"></span> / <span id="page_count"></span></div>
 
     <div id="search-pane">
-        <input type="text" id="searchBox" placeholder="Search for...">
-        <button onclick="searchText()">Search</button>
+        <input type="text" id="searchBox" placeholder="Enter text to search...">
+        <button id="searchButton">Search</button>
     </div>
+
+
 </div>
 
 <script th:src="@{/js/pdfViewerWithSearch.js}"></script>
